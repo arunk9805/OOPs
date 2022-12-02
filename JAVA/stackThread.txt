@@ -1,0 +1,59 @@
+import java.util.*;
+// import java.io.*;
+class myStack {
+Stack<Integer> s = new Stack<>();
+public synchronized void Push() {
+if (s.empty()) {
+try {
+wait(1000);
+} catch (InterruptedException e) {
+System.out.println(e.getMessage());
+}
+Random rn = new Random();
+int x = rn.nextInt(50);
+s.push(x);
+System.out.println("Pushed: " + x);
+notify();
+}
+}
+public synchronized void Pop() {
+if (!s.empty()) {
+try {
+wait(1000);
+} catch (InterruptedException e) {
+System.out.println(e.getMessage());
+}
+System.out.println("Popped: " + s.pop());
+notify();
+}
+}
+}
+class th1 implements Runnable {
+myStack s;
+public th1(myStack s) {
+this.s = s;
+new Thread(this, "Push").start();
+}
+public void run() {
+for (;;)
+s.Push();
+}
+}
+class th2 implements Runnable {
+myStack s;
+public th2(myStack s) {
+this.s = s;
+new Thread(this, "Pop").start();
+}
+public void run() {
+for (;;)
+s.Pop();
+}
+}
+class Driver {
+public static void main(String[] args) {
+myStack s = new myStack();
+new th1(s);
+new th2(s);
+}
+}

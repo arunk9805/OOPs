@@ -1,0 +1,92 @@
+import java.util.*;
+class Overflow extends Exception {
+Overflow(String s) {
+super(s);
+}
+}
+class Underflow extends Exception {
+Underflow(String s) {
+super(s);
+}
+}
+class myStack {
+int bottom = -1, top = -1, capacity, arr[];
+myStack(int c) {
+capacity = c;
+arr = new int[c];
+System.out.println("Stack initialised");
+}
+boolean isFull() {
+return top == capacity - 1;
+}
+boolean empty() {
+return bottom == -1;
+}
+void push(int x) {
+if (bottom == -1)
+bottom++;
+arr[++top] = x;
+System.out.println("Element pushed: " + x);
+}
+void pop() {
+if (top == 0)
+bottom--;
+System.out.println("Element popped: " + arr[top--]);
+}
+void display() {
+System.out.print("\nStack: ");
+for (int i = 0; i <= top; i++)
+System.out.print(arr[i] + " ");
+}
+void peek() {
+System.out.println("Top element is: " + arr[top]);
+}
+}
+class Driver {
+public static void main(String[] args) {
+Scanner sc = new Scanner(System.in);
+System.out.print("Enter the capacity of the stack: ");
+int c = sc.nextInt();
+myStack s = new myStack(c);
+while (true) {
+try {
+System.out.println("\n\nOPTIONS");
+System.out.print("<1>PUSH\n<2>POP\n<3>PEEK\n<4>DISPLAY\n<5>EXIT:
+");
+int opt = sc.nextInt();
+if (opt == 1 && s.isFull()) {
+throw new Overflow("Stack is full");
+} else if ((opt == 2 || opt == 3 || opt == 4) && s.empty()) {
+throw new Underflow("Stack is empty");
+} else {
+switch (opt) {
+case 1:
+System.out.print("Enter element: ");
+int x = sc.nextInt();
+s.push(x);
+s.display();
+break;
+case 2:
+s.pop();
+s.display();
+break;
+case 3:
+s.peek();
+s.display();
+break;
+case 4:
+s.display();
+break;
+case 5:
+sc.close();
+System.exit(0);
+break;
+default:
+System.out.println("Invalid option");
+}
+}
+} catch (Exception e) {
+System.out.println(e.getMessage());
+}
+}
+}

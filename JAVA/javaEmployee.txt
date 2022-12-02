@@ -1,0 +1,58 @@
+import java.util.*;
+class Employee {
+String name, empId, dept;
+int feedback_score, jDate;
+float salary;
+static String orgName;
+public void display() {
+System.out.print("\nName: " + name + "\tEmpId: " + empId + "\tJoining
+Date: " + jDate + "\tDepartment: " + dept
++ "\tFeedback Score: " + feedback_score + "\tOrganisation name: "
++ orgName);
+if (new Employee.promotion().promote(this))
+System.out.print("\nThe Employee is promoted");
+else
+System.out.print("\nThe Employee is not promoted");
+}
+public static class increment {
+public static float calc_increment(Employee obj) {
+return 1.15f * (obj.feedback_score + (2022 - obj.jDate));
+}
+}
+public class promotion {
+public Boolean promote(Employee obj) {
+return (Employee.increment.calc_increment(obj) > 0.5f * salary) ?
+true : false;
+}
+}
+static public void main(String[] args) {
+Scanner sc = new Scanner(System.in);
+int n;
+System.out.print("Enter number of employees: ");
+n = sc.nextInt();
+String rand = sc.nextLine();
+System.out.print("Enter Organisation Name: ");
+orgName = sc.nextLine();
+Employee obj[] = new Employee[n];
+for (int i = 0; i < n; i++) {
+obj[i] = new Employee();
+System.out.print("Enter Name: ");
+obj[i].name = sc.nextLine();
+System.out.print("Enter Employee ID: ");
+obj[i].empId = sc.nextLine();
+System.out.print("Enter Joining Date: ");
+obj[i].jDate = sc.nextInt();
+rand = sc.nextLine();
+System.out.print("Enter Department: ");
+obj[i].dept = sc.nextLine();
+System.out.print("Enter Feedback Score: ");
+obj[i].feedback_score = sc.nextInt();
+System.out.print("Enter Salary: ");
+obj[i].salary = sc.nextFloat();
+rand = sc.nextLine();
+}
+for(int i = 0 ; i < n ; i++)
+obj[i].display();
+sc.close();
+}
+}
